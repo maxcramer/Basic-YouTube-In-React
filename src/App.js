@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
 import SearchBar from './components/search_bar';
 import YTSearch from 'youtube-api-search';
 import VideoList from './components/video_list';
-import VideoDetails from './components/video_details';
+import VideoDetail from './components/video_details';
 const API_KEY = 'AIzaSyDA4Y_8QfHLYqnZKCP5aiKcV07cDr6H5iY';
 
 class App extends Component {
@@ -32,7 +31,7 @@ class App extends Component {
     return (
       <div>
         <SearchBar onSearchTermChange={searchTerm => this.videoSearch(searchTerm)} />
-        <VideoDetails video={this.state.selectedVideo} />
+        <VideoDetail video={this.state.selectedVideo} />
         <VideoList
           onVideoSelect={userSelected => this.setState({selectedVideo: userSelected})}
            videos={this.state.videos}/>
