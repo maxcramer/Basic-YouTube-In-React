@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import './App.css';
 import SearchBar from './components/search_bar';
 import YTSearch from 'youtube-api-search';
 import VideoList from './components/video_list';
-import './App.css';
+import VideoDetails from './components/video_details';
 const API_KEY = 'AIzaSyDA4Y_8QfHLYqnZKCP5aiKcV07cDr6H5iY';
 
 class App extends Component {
@@ -10,17 +11,19 @@ class App extends Component {
     super(props);
 
     this.state = {
-      videos: []
+      videos: [],
+      selectedVideo: null
     };
-    console.log(this);
 
-    this.videoSearch('React Tutorials');
+    this.videoSearch('Smartzer Wired');
   }
 
-  videoSearch(term) {
-    YTSearch({key: API_KEY, term: term}, (data) => {
+  videoSearch(searchTerm) {
+    YTSearch({key: API_KEY, term: searchTerm}, (data) => {
+      console.log(data);
       this.setState({
-        videos: data
+        videos: data,
+        selectedVideo: data[0]
       });
     });
   }
@@ -28,8 +31,11 @@ class App extends Component {
   render() {
     return (
       <div>
-        <SearchBar />
-        <VideoList videos={this.state.videos}/>
+        <SearchBar onSearchTermChange={searchTerm => this.videoSearch(searchTerm)} />
+        <VideoDetails video={this.state.selectedVideo} />
+        <VideoList
+          onVideoSelect={userSelected => this.setState({selectedVideo: userSelected})}
+           videos={this.state.videos}/>
       </div>
     );
   }
